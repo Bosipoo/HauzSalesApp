@@ -1,0 +1,14 @@
+.totals {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  tfoot td {
+    border: none !important;
+  }
+  
+  tfoot .totals > div {
+    margin: 2px 0;
+  }
+  
