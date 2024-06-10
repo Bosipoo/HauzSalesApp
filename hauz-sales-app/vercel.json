@@ -1,7 +1,14 @@
 {
     "routes": [
         { "src": "/login", "dest": "/" },
-        { "src": "/", "dest": "/" }
+        { "src": "/", "dest": "/" },
+        { "src": "/general-ledgers", "dest": "/" },
+        { "src": "/properties", "dest": "/" },
+        { "src": "/prospects", "dest": "/" },
+        { "src": "/sales", "dest": "/" },
+        { "src": "/sales-reps", "dest": "/" },
+        { "src": "/transactions", "dest": "/" },
+        { "src": "/ledger-acc-statement/:id", "dest": "/" }
     ]
 }
   
