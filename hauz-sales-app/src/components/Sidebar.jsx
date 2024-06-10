@@ -7,7 +7,7 @@ function Sidebar({openSidebarToggle, OpenSidebar}) {
         <div className='sidebar'>
             <div className='sidebar-title'>
                 <div className='sidebar-brand'>
-                    <BsCart3 className='icon_header'/> HAUS
+                    <BsCart3 className='icon_header'/> HAUZ
                 </div>
                 <span className='icon close_icon' onClick={OpenSidebar}>X</span>
             </div>
