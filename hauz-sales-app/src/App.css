@@ -262,3 +262,7 @@ form.top::after {
   clear: both;
   display: table;
 }
+
+.table{
+  font-size: small;
+}

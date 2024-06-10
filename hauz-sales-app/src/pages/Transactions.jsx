@@ -264,12 +264,12 @@ const Transactions = () => {
             </Modal>
 
             {/* Payment Modal */}
-            <Modal show={showPymtModal} onHide={handlePymtClose} size='lg' centered>
+            <Modal show={showPymtModal} onHide={handlePymtClose} size='md' centered>
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
                     <>
                         <div className='row'>
-                            <h2 className='text-center p-4'>Download Generated File</h2>
+                            <h3 className='text-center p-4'>Download Generated File</h3>
                         </div>
                         <div className='row'>
                             <Button variant="success" className="w-50 mx-auto">
