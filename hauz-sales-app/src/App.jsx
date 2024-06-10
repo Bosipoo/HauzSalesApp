@@ -14,6 +14,7 @@ function App() {
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />}/>
+            
             {/* <Route path="/" element={<Layout><Home /></Layout>}/>
             <Route path="/general-ledgers" element={<Layout><GeneralLedgers /></Layout>} /> */}
         </Routes>
