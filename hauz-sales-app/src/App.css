@@ -1,9 +1,9 @@
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #1d2634;
-  color: #9e9ea4;
-  font-family: 'Montserrat', sans-serif;
+  margin: 0 !important; 
+  padding: 0 !important;
+  background-color: #1d2634 !important;
+  color: #9e9ea4 !important;
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 .icon {
