@@ -19,6 +19,8 @@ const GeneralLedgers = () => {
     isActive: false,
   });
   const [loading, setLoading] = useState(false);
+  const [activityFilter, setActivityFilter] = useState(''); // State for activity filter
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
   const recordsPerPage = 15;
 
   useEffect(() => {
@@ -34,10 +36,30 @@ const GeneralLedgers = () => {
     fetchLedgers();
   }, []);
 
+  // Calculate current page records and apply filters
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
-  const totalPages = Math.ceil(records.length / recordsPerPage);
+  let filteredRecords = records;
+
+  // Apply activity status filter
+  if (activityFilter === 'active') {
+    filteredRecords = records.filter(record => record.status);
+  } else if (activityFilter === 'inactive') {
+    filteredRecords = records.filter(record => !record.status);
+  }
+
+  // Apply search query filter
+  if (searchQuery.trim() !== '') {
+    filteredRecords = filteredRecords.filter(record =>
+      record.glId.toString().includes(searchQuery.trim()) ||
+      record.accountNumber.includes(searchQuery.trim()) ||
+      record.glAccName.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+      record.glAccDescription.toLowerCase().includes(searchQuery.trim().toLowerCase())
+    );
+  }
+
+  const currentRecords = filteredRecords.slice(indexOfFirstRecord, indexOfLastRecord);
+  const totalPages = Math.ceil(filteredRecords.length / recordsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -114,25 +136,30 @@ const GeneralLedgers = () => {
     }
   };
 
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <main className='main-container'>
       <div className='main-title'>
-          <h2>GENERAL LEDGERS</h2>
+        <h2>GENERAL LEDGERS</h2>
       </div>
-      
+
       <div className="row main-header">
         <div className="col-md-3 col-sm-4">
           <div className="input-group mb-3">
-            <form className="top" action="#">
-              <input type="text" placeholder="Search.." name="search2" />
+            <form className="top" onSubmit={(e) => e.preventDefault()}>
+              <input type="text" placeholder="Search.." name="search2" value={searchQuery} onChange={handleSearchChange} />
               <button type="submit"><BsSearch className='card-icon' /></button>
             </form>
           </div>
         </div>
         <div className="col-md-2 col-sm-4">
           <div className="input-group mb-3">
-            <select className="form-select" id="activityStat" name="activityStat">
-              <option defaultValue>Activity Status</option>
+            <select className="form-select" id="activityStat" name="activityStat" value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
+              <option value="">Activity Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
