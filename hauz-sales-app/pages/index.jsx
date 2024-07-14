@@ -1,5 +1,3 @@
-// pages/index.js
-import { useState } from 'react';
 import { BsBuildingFillUp, BsBasketFill, BsPeopleFill, BsBank2 } from 'react-icons/bs';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import withAuth from '../hoc/withAuth';

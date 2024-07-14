@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-import { Button, Modal, Form } from 'react-bootstrap'
-import { BsSearch, BsPlusLg, BsEye, BsPencilSquare, BsFileEarmarkCheck } from "react-icons/bs"
+import { useState } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
+import { BsSearch, BsPlusLg, BsEye, BsPencilSquare } from "react-icons/bs";
 
 const Sales = () => {
     const records = [
-        { ID: 1, ProspectNum: 'PRN1-10001', Name: 'Mr. Tochukwu Chiroma Adeleke', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 2, ProspectNum: 'PRN1-10002', Name: 'Mrs. Eunice Ijeoma Abuloma', Phone: '09087777777', Gender: 'Female', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'JEGEDE ALIMOTU CHINWE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 3, ProspectNum: 'PRN1-10003', Name: 'Mr. Omotayo Adewunmi', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 4, ProspectNum: 'PRN2-10001', Name: 'Mr. Olayide Lookman', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 5, ProspectNum: 'PRN3-10001', Name: 'Ms. Ngozi Abel', Phone: '09087777777', Gender: 'Female', CapDate: '12/05/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true }
+        { ID: 1, ProspectNum: 'PRN1-10001', Name: 'Mr. Tochukwu Chiroma Adeleke', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 2, ProspectNum: 'PRN1-10002', Name: 'Mrs. Eunice Ijeoma Abuloma', Phone: '09087777777', Gender: 'Female', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'JEGEDE ALIMOTU CHINWE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 3, ProspectNum: 'PRN1-10003', Name: 'Mr. Omotayo Adewunmi', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 4, ProspectNum: 'PRN2-10001', Name: 'Mr. Olayide Lookman', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 5, ProspectNum: 'PRN3-10001', Name: 'Ms. Ngozi Abel', Phone: '09087777777', Gender: 'Female', CapDate: '12/05/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true }
         // ... Add more records up to 100 or more for testing
-      ];
-    
+    ];
+
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => setShowModal(false);
     const recordsPerPage = 15;
-    
+
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -27,7 +27,17 @@ const Sales = () => {
     };
 
     const handleShow = () => setShowModal(true);
-    const handleClose = () => setShowModal(false);
+
+    const handleView = (id) => {
+        // Implement the logic for viewing the record
+        console.log("Viewing record with ID:", id);
+    };
+
+    const handleEdit = (id) => {
+        // Implement the logic for editing the record
+        console.log("Editing record with ID:", id);
+    };
+
     return (
         <main className='main-container'>
             <div className='main-title'>
@@ -44,7 +54,6 @@ const Sales = () => {
                     </div>
                 </div>
                 <div className="col-md-2 col-sm-4">
-                    {/* Dropdown for filtering */}
                     <div className="input-group mb-3">
                         <select className="form-select" id="activityStat" name="activityStat">
                             <option defaultValue>Client Status</option>
@@ -54,12 +63,10 @@ const Sales = () => {
                     </div>
                 </div>
                 <div className="col-md-7 col-sm-4 text-right d-flex justify-content-end gap-3">
-                    {/* Button for adding */}
                     <button className="btn btn-primary btn-block" onClick={handleShow}><BsPlusLg /> Record Sale</button>
                 </div>
             </div>
 
-            {/* Bootstrap Table */}
             <div className="row mt-4">
                 <div className="col-12">
                     <div className="table-responsive">
@@ -112,18 +119,17 @@ const Sales = () => {
                     <nav>
                         <ul className="pagination justify-content-center">
                             {[...Array(totalPages)].map((_, index) => (
-                            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                                {index + 1}
-                                </button>
-                            </li>
+                                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                    <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                                        {index + 1}
+                                    </button>
+                                </li>
                             ))}
                         </ul>
                     </nav>
                 </div>
             </div>
 
-            {/* Modal */}
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Sales Data Capture</Modal.Title>
@@ -212,10 +218,6 @@ const Sales = () => {
                                     <Form.Control as="textarea" rows={2} />
                                 </Form.Group>
                             </div>
-                            
-                        </div>
-                        <div className="row">
-                            
                         </div>
                     </Form>
                 </Modal.Body>
@@ -226,7 +228,7 @@ const Sales = () => {
                 </Modal.Footer>
             </Modal>
         </main>
-      )
-}
+    );
+};
 
-export default Sales
+export default Sales;

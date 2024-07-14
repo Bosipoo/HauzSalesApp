@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { FaExclamationCircle } from 'react-icons/fa';
+import { useState } from 'react';
 import { Spinner, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import { signUp } from '../services/api';

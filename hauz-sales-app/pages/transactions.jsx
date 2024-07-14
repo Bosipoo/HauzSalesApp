@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
-import { BsSearch, BsPlusLg, BsEye, BsPencilSquare, BsFileEarmarkCheck } from "react-icons/bs"
+import { BsSearch, BsPlusLg, BsEye, BsFileEarmarkCheck } from "react-icons/bs"
 
 const Transactions = () => {
     const records = [
@@ -10,12 +10,11 @@ const Transactions = () => {
         { ID: 4, ProspectNum: 'PRN2-10001', Name: 'Mr. Olayide Lookman', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
         { ID: 5, ProspectNum: 'PRN3-10001', Name: 'Ms. Ngozi Abel', Phone: '09087777777', Gender: 'Female', CapDate: '12/05/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true }
         // ... Add more records up to 100 or more for testing
-      ];
+    ];
     
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const [showPymtModal, setShowPymtModal] = useState(false);
-    const handleCloseModal = () => setShowModal(false);
     const recordsPerPage = 15;
     
     const indexOfLastRecord = currentPage * recordsPerPage;
@@ -29,8 +28,13 @@ const Transactions = () => {
 
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
-    const handlePymtShow =() => setShowPymtModal(true);
+    const handlePymtShow = () => setShowPymtModal(true);
     const handlePymtClose = () => setShowPymtModal(false);
+    
+    const handleView = (GLID) => {
+        // Define the handleView function logic here
+        console.log('View GLID:', GLID);
+    };
 
     return (
         <main className='main-container'>
@@ -88,17 +92,17 @@ const Transactions = () => {
                                 {currentRecords.map(record => (
                                     <tr key={record.ID}>
                                         <th scope="row">{record.ID}</th>
-                                        <td>{}</td>
+                                        <td>{/* Add corresponding data */}</td>
                                         <td>{record.ProspectNum}</td>
                                         <td>{record.Phone}</td>
                                         <td>{record.ProspectNum}</td>
                                         <td>{record.Name}</td>
                                         <td>{record.ID}</td>
-                                        <td>{}</td>
-                                        <td>{}</td>
-                                        <td>{}</td>
+                                        <td>{/* Add corresponding data */}</td>
+                                        <td>{/* Add corresponding data */}</td>
+                                        <td>{/* Add corresponding data */}</td>
                                         <td>
-                                            <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.GLID)}>
+                                            <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.ID)}>
                                                 <BsEye />
                                             </button>
                                         </td>
@@ -281,7 +285,7 @@ const Transactions = () => {
             </Modal>
     
         </main>
-      )
+    )
 }
 
 export default Transactions

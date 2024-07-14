@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
-import { Button, Modal, Form } from 'react-bootstrap'
-import { BsSearch, BsPlusLg, BsEye, BsPencilSquare, BsFileEarmarkCheck } from "react-icons/bs"
+import React, { useState } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
+import { BsSearch, BsPlusLg, BsEye, BsPencilSquare } from "react-icons/bs";
 
 const Prospects = () => {
     const records = [
-        { ID: 1, ProspectNum: 'PRN1-10001', Name: 'Mr. Tochukwu Chiroma Adeleke', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 2, ProspectNum: 'PRN1-10002', Name: 'Mrs. Eunice Ijeoma Abuloma', Phone: '09087777777', Gender: 'Female', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'JEGEDE ALIMOTU CHINWE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 3, ProspectNum: 'PRN1-10003', Name: 'Mr. Omotayo Adewunmi', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 4, ProspectNum: 'PRN2-10001', Name: 'Mr. Olayide Lookman', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true },
-        { ID: 5, ProspectNum: 'PRN3-10001', Name: 'Ms. Ngozi Abel', Phone: '09087777777', Gender: 'Female', CapDate: '12/05/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333',  Active: true }
+        { ID: 1, ProspectNum: 'PRN1-10001', Name: 'Mr. Tochukwu Chiroma Adeleke', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 2, ProspectNum: 'PRN1-10002', Name: 'Mrs. Eunice Ijeoma Abuloma', Phone: '09087777777', Gender: 'Female', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'JEGEDE ALIMOTU CHINWE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 3, ProspectNum: 'PRN1-10003', Name: 'Mr. Omotayo Adewunmi', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 4, ProspectNum: 'PRN2-10001', Name: 'Mr. Olayide Lookman', Phone: '09087777777', Gender: 'Male', CapDate: '11/04/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true },
+        { ID: 5, ProspectNum: 'PRN3-10001', Name: 'Ms. Ngozi Abel', Phone: '09087777777', Gender: 'Female', CapDate: '12/05/2024', ClientStatus: true, AccOfficer: 'ADAMU ADEMOLA CHIGOZIE', AccOfficerPhone: '080233333333', Active: true }
         // ... Add more records up to 100 or more for testing
-      ];
-    
+    ];
+
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = useState(false);
     const recordsPerPage = 15;
-    
+
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -28,41 +28,53 @@ const Prospects = () => {
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
 
-    const [show, setShow] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        checkboxes: [
-            { label: 'Checkbox 1', checked: false },
-            { label: 'Checkbox 2', checked: false },
-            { label: 'Checkbox 3', checked: false },
-            { label: 'Checkbox 4', checked: false },
-            { label: 'Checkbox 5', checked: false },
-            { label: 'Checkbox 6', checked: false },
-            { label: 'Checkbox 7', checked: false },
-            { label: 'Checkbox 8', checked: false },
-            { label: 'Checkbox 9', checked: false },
-            { label: 'Checkbox 10', checked: false },
-        ],
-    });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    // Define handleView and handleEdit functions
+    const handleView = (id) => {
+        // Implement view functionality
+        console.log(`Viewing record with ID: ${id}`);
     };
 
-    const handleCheckboxChange = (index) => {
-        const updatedCheckboxes = formData.checkboxes.map((checkbox, i) =>
-            i === index ? { ...checkbox, checked: !checkbox.checked } : checkbox
-        );
-        setFormData({ ...formData, checkboxes: updatedCheckboxes });
+    const handleEdit = (id) => {
+        // Implement edit functionality
+        console.log(`Editing record with ID: ${id}`);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        handleClose();
-    };
+    // Remove unused state and functions
+    // const [show, setShow] = useState(false);
+    // const [formData, setFormData] = useState({
+    //     name: '',
+    //     email: '',
+    //     checkboxes: [
+    //         { label: 'Checkbox 1', checked: false },
+    //         { label: 'Checkbox 2', checked: false },
+    //         { label: 'Checkbox 3', checked: false },
+    //         { label: 'Checkbox 4', checked: false },
+    //         { label: 'Checkbox 5', checked: false },
+    //         { label: 'Checkbox 6', checked: false },
+    //         { label: 'Checkbox 7', checked: false },
+    //         { label: 'Checkbox 8', checked: false },
+    //         { label: 'Checkbox 9', checked: false },
+    //         { label: 'Checkbox 10', checked: false },
+    //     ],
+    // });
+
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData({ ...formData, [name]: value });
+    // };
+
+    // const handleCheckboxChange = (index) => {
+    //     const updatedCheckboxes = formData.checkboxes.map((checkbox, i) =>
+    //         i === index ? { ...checkbox, checked: !checkbox.checked } : checkbox
+    //     );
+    //     setFormData({ ...formData, checkboxes: updatedCheckboxes });
+    // };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log(formData);
+    //     handleClose();
+    // };
 
     return (
         <main className='main-container'>
@@ -129,10 +141,10 @@ const Prospects = () => {
                                         <td>{record.AccOfficerPhone}</td>
                                         <td>{record.Active}</td>
                                         <td>
-                                            <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.GLID)}>
+                                            <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.ID)}>
                                                 <BsEye />
                                             </button>
-                                            <button className="btn btn-link p-0" onClick={() => handleEdit(record.GLID)}>
+                                            <button className="btn btn-link p-0" onClick={() => handleEdit(record.ID)}>
                                                 <BsPencilSquare />
                                             </button>
                                         </td>
@@ -141,14 +153,20 @@ const Prospects = () => {
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            {/* Pagination */}
+            <div className="row mt-4">
+                <div className="col-12">
                     <nav>
                         <ul className="pagination justify-content-center">
-                            {[...Array(totalPages)].map((_, index) => (
-                            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                                {index + 1}
-                                </button>
-                            </li>
+                            {Array.from({ length: totalPages }, (_, index) => index + 1).map(pageNumber => (
+                                <li key={pageNumber} className={`page-item ${currentPage === pageNumber ? 'active' : ''}`}>
+                                    <button className="page-link" onClick={() => handlePageChange(pageNumber)}>
+                                        {pageNumber}
+                                    </button>
+                                </li>
                             ))}
                         </ul>
                     </nav>
@@ -156,272 +174,35 @@ const Prospects = () => {
             </div>
 
             {/* Modal */}
-            <Modal show={showModal} onHide={handleClose} size="lg" centered>
+            <Modal show={showModal} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Capture Form</Modal.Title>
+                    <Modal.Title>Add/Edit Prospect</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {/* Form to add/edit prospects */}
                     <Form>
-                        <div className="form-section">
-                            <h5>Personal Information</h5>
-                            <div className="row">
-                                <div className="col-lg-4 col-md-5 col-xs-5">
-                                    <Form.Group controlId="piTitle">
-                                        <Form.Label>Title</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Mr.</option>
-                                            <option>Mrs.</option>
-                                            <option>Ms.</option>
-                                            <option>Chief</option>
-                                            <option>Dr.</option>
-                                            <option>Prof.</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                </div>
-                                <div className='col-lg-4 col-md-1 col-xs-1'></div>
-                                <div className="col-lg-4 col-md-5 col-xs-5">
-                                    <Form.Group controlId="pPhoto">
-                                        <Form.Label>P-Photo</Form.Label>
-                                        <Form.Control type="file" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="firstName">
-                                        <Form.Label>First Name</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="lastName">
-                                        <Form.Label>Last Name</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="otherNames">
-                                        <Form.Label>Other Names</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="dob">
-                                        <Form.Label>Dt of Birth</Form.Label>
-                                        <Form.Control type="date" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="gender">
-                                        <Form.Label>Gender</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Other</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="state">
-                                        <Form.Label>State (Origin)</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="phone1">
-                                        <Form.Label>Phone</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="gender">
-                                        <Form.Label>Marital Status</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Married</option>
-                                            <option>Single</option>
-                                            <option>Widowed</option>
-                                            <option>Divorced</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                </div>
-                                <div className="col-lg-4 col-md-6 col-xs-6">
-                                    <Form.Group controlId="email">
-                                        <Form.Label>Email Addr.</Form.Label>
-                                        <Form.Control type="email" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-12">
-                                    <Form.Group controlId="address">
-                                        <Form.Label>Address</Form.Label>
-                                        <Form.Control as="textarea" rows={2} placeholder="Enter address" />
-                                    </Form.Group>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="form-section">
-                            <h5>Employment Details</h5>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <Form.Group controlId="employmentStat">
-                                        <Form.Label>Employment Status</Form.Label>
-                                        <Form.Control as="select">
-                                            <option value="">Select Status</option>
-                                            <option value="Employed">Employed</option>
-                                            <option value="Entrepreneur">Entrepreneur</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="coyName">
-                                        <Form.Label>Place of Work</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-12">
-                                    <Form.Group controlId="companyAdd">
-                                        <Form.Label>Company Address</Form.Label>
-                                        <Form.Control as="textarea" rows={2} placeholder="Enter address"  />
-                                    </Form.Group>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="form-section">
-                            <h5>Next of Kin Informations</h5>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <Form.Group controlId="nikName">
-                                        <Form.Label>Name</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="nikAdd">
-                                        <Form.Label>Address</Form.Label>
-                                        <Form.Control as="textarea" rows={2}  />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="nikPhone">
-                                        <Form.Label>Phone</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="nikRelationship">
-                                        <Form.Label>Relationship</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>                           
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="form-section">
-                            <h5>Ares of interest</h5>
-                            <div className="row">
-                                <div className='col-md-2'>
-                                    <Form.Group controlId='check-1' key='1'>
-                                        <Form.Check 
-                                            type="checkbox"
-                                            label='Basic'
-                                            checked= {false}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                                <div className='col-md-2'>
-                                    <Form.Group controlId='check-2' key='2'>
-                                        <Form.Check 
-                                            type="checkbox"
-                                            label='Lunch'
-                                            checked={false}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                                <div className='col-md-2'>
-                                    <Form.Group controlId='check-3' key='2'>
-                                        <Form.Check 
-                                            type="checkbox"
-                                            label='COLA'
-                                            checked={false}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                                
-                                <div className='col-md-2'>
-                                    <Form.Group controlId='FestiveBonus' key='2'>
-                                        <Form.Check 
-                                            type="checkbox"
-                                            label='Festive Bonus'
-                                            checked={false}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                                <div className='col-md-2'>
-                                    <Form.Group controlId='CarMtce' key='2'>
-                                        <Form.Check 
-                                            type="checkbox"
-                                            label='Car Mtce'
-                                            checked={false}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                                <div className='col-md-2'>
-                                    <Form.Group controlId='Utility' key='2'>
-                                        <Form.Check 
-                                            type="checkbox"
-                                            label='Utility'
-                                            checked={false}
-                                            onChange={() => handleCheckboxChange(index)}
-                                        />
-                                    </Form.Group>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="form-section">
-                            <h5>Referers Details</h5>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <Form.Group controlId="rdCompany">
-                                        <Form.Label>Referer's Company</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="rdLastCode">
-                                        <Form.Label>Last Code Generated</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="rdIdentity">
-                                        <Form.Label>Referer's Identity</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                    <Form.Group controlId="rdRegCode">
-                                        <Form.Label>Reg Code</Form.Label>
-                                        <Form.Control type="text" />
-                                    </Form.Group>
-                                </div>                                      
-                            </div>
-                        </div>
+                        <Form.Group controlId="formName">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control type="text" placeholder="Enter name" />
+                        </Form.Group>
+                        <Form.Group controlId="formPhone">
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control type="text" placeholder="Enter phone number" />
+                        </Form.Group>
+                        {/* Add more fields as necessary */}
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer className="modal-footer-custom">
-                    <Button variant="primary" className="w-100">
-                        Submit
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>
         </main>
-      )
-}
+    );
+};
 
-export default Prospects
+export default Prospects;

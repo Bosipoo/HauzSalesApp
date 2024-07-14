@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap'
-import { BsSearch, BsPlusLg, BsEye, BsPencilSquare, BsFileEarmarkCheck } from "react-icons/bs"
+import { BsSearch, BsPlusLg, BsEye, BsPencilSquare } from "react-icons/bs"
 
 const SalesReps = () => {
     const records = [
@@ -10,11 +10,11 @@ const SalesReps = () => {
         { ID: 4, RepCode: 'XYZL-20002', Name: 'FOLORUNSO TEMITOPE AJAYI', Gender: 'Male', Phone: '', AffiliateCoy: 'XYZL', TL: false, TM: true, FL: true, Uplink: 1, Active: true },
         { ID: 5, RepCode: 'ABCL-10003', Name: 'IBE MICHAEL AMBROSE', Gender: 'Male', Phone: '', AffiliateCoy: 'ABCL', TL: true, TM: true, FL: true, Uplink: 1, Active: true }
         // ... Add more records up to 100 or more for testing
-      ];
-    
-      const [currentPage, setCurrentPage] = useState(1);
-      const [showModal, setShowModal] = useState(false);
-      const [formData, setFormData] = useState({
+    ];
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
         GLAcctNumber: '',
         GLGroupID: '',
         GLTypeID: '',
@@ -22,20 +22,28 @@ const SalesReps = () => {
         GLAcctDescription: '',
         GLAcctName: '',
         isActive: false,
-      });
-      const recordsPerPage = 15;
-    
-      const indexOfLastRecord = currentPage * recordsPerPage;
-      const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-      const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
-      const totalPages = Math.ceil(records.length / recordsPerPage);
-    
-      const handlePageChange = (pageNumber) => {
+    });
+    const recordsPerPage = 15;
+
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
+    const totalPages = Math.ceil(records.length / recordsPerPage);
+
+    const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
-      };
+    };
 
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
+
+    const handleView = (id) => {
+        console.log(`View record with ID: ${id}`);
+    };
+
+    const handleEdit = (id) => {
+        console.log(`Edit record with ID: ${id}`);
+    };
 
     return (
         <main className='main-container'>
@@ -111,10 +119,10 @@ const SalesReps = () => {
                                         <td>{record.Uplink}</td>
                                         <td>{record.Active}</td>
                                         <td>
-                                            <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.GLID)}>
+                                            <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.ID)}>
                                                 <BsEye />
                                             </button>
-                                            <button className="btn btn-link p-0" onClick={() => handleEdit(record.GLID)}>
+                                            <button className="btn btn-link p-0" onClick={() => handleEdit(record.ID)}>
                                                 <BsPencilSquare />
                                             </button>
                                         </td>
@@ -126,11 +134,11 @@ const SalesReps = () => {
                     <nav>
                         <ul className="pagination justify-content-center">
                             {[...Array(totalPages)].map((_, index) => (
-                            <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                                {index + 1}
-                                </button>
-                            </li>
+                                <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                                    <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                                        {index + 1}
+                                    </button>
+                                </li>
                             ))}
                         </ul>
                     </nav>
@@ -343,7 +351,6 @@ const SalesReps = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-    
         </main>
     )
 }

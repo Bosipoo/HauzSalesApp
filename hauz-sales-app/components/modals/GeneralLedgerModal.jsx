@@ -1,28 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button, Form, Spinner } from 'react-bootstrap';
 
 const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChange, handleSubmit, isLoading }) => {
-
-  const getGLTypeID = (glGroupID) => {
-    switch (glGroupID) {
-      case 'INF':
-        return 'INF | Inflow for Buyer';
-      case 'FL':
-        return 'FL | Comm to Freelancer';
-      case 'TM':
-        return 'TM | Comm to Members';
-      case 'TL':
-        return 'TL | Comm to Leaders';
-      case 'LGL':
-        return 'LGL | Legal Fees Charged';
-      case 'MKT':
-        return 'MKT | Marketing Levy';
-      case 'PJR':
-        return 'PJR | Project Development';
-      default:
-        return '';
-    }
-  };
 
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
@@ -110,6 +90,21 @@ const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChang
       </Modal.Body>
     </Modal>
   );
+};
+
+GeneralLedgerModal.propTypes = {
+  showModal: PropTypes.bool.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    GLGroupID: PropTypes.string,
+    GLTypeID: PropTypes.string,
+    TempAcctName: PropTypes.string,
+    GLAcctDescription: PropTypes.string,
+    isActive: PropTypes.bool
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
 export default GeneralLedgerModal;

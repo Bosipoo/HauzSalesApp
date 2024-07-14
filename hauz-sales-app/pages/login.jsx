@@ -90,6 +90,13 @@ const Login = () => {
               )}
             </div>
             {errors.general && <p className="text-danger">{errors.general}</p>}
+            {serverErrors.length > 0 && (
+              <div className="alert alert-danger">
+                {serverErrors.map((error, index) => (
+                  <p key={index}>{error.description}</p>
+                ))}
+              </div>
+            )}
             <p>
               <a href="/signup" className='text-start text-primary pb-2'>Sign Up </a>
               <a href="#" className='text-end text-primary pb-2'> Forgot Password?</a>
