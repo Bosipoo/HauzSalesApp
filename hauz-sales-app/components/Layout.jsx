@@ -2,7 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import '../styles/Layout.module.css';
 
 const Layout = ({ children }) => {
     const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
