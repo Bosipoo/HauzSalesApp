@@ -280,3 +280,26 @@ body {
   .highlighted {
     background-color: #fffae6;
   }
+
+  .totals {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  tfoot td {
+    border: none !important;
+  }
+  
+  tfoot .totals > div {
+    margin: 2px 0;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "sidebar main";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 250px 1fr;
+  }

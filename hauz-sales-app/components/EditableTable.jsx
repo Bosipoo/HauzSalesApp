@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Table, Button, Form } from 'react-bootstrap';
-import '../styles/editabletable.css';
 
 const EditableTable = () => {
     const { id } = useParams();
