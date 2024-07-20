@@ -287,15 +287,15 @@ body {
     align-items: flex-end;
   }
   
-  tfoot td {
+  .edit tfoot td {
     border: none !important;
   }
   
-  tfoot .totals > div {
+  .edit tfoot .totals > div {
     margin: 2px 0;
   }
   
-  .grid-container {
+  .layout .grid-container {
     display: grid;
     grid-template-areas:
       "header header"

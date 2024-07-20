@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Table, Button, Form } from 'react-bootstrap';
+import '../styles/editabletable.css';
 
 const EditableTable = () => {
     const { id } = useParams();
@@ -43,7 +44,7 @@ const EditableTable = () => {
         <div className="container mt-5">
             <h2>General Ledgers Data Entry - {id}</h2>
             <Form onSubmit={handleAddRow}>
-                <Table striped bordered hover responsive>
+                <Table striped bordered hover responsive className='edit'>
                     <thead>
                         <tr>
                             <th>Date</th>

@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
     };
 
     return (
-        <div className='grid-container'>
+        <div className='layout grid-container'>
             <Header OpenSidebar={OpenSidebar} />
             <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
             {children}
