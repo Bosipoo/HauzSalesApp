@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BsSearch, BsPlusLg, BsEye, BsPencilSquare } from "react-icons/bs";
 import Link from 'next/link';
 import GeneralLedgerModal from '../components/modals/GeneralLedgerModal';
-import { addLedger, getLedgers } from '../services/api';
+import { addLedger, getLedgers, getLedgerById } from '../services/api';
 import withAuth from '../hoc/withAuth';
 import checkTokenExpiration from '../hoc/checkTokenExpiration';
 
@@ -19,8 +19,9 @@ const GeneralLedgers = () => {
     isActive: false,
   });
   const [loading, setLoading] = useState(false);
-  const [activityFilter, setActivityFilter] = useState(''); // State for activity filter
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
+  const [activityFilter, setActivityFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isViewMode, setIsViewMode] = useState(false);
   const recordsPerPage = 15;
 
   useEffect(() => {
@@ -36,19 +37,16 @@ const GeneralLedgers = () => {
     fetchLedgers();
   }, []);
 
-  // Calculate current page records and apply filters
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   let filteredRecords = records;
 
-  // Apply activity status filter
   if (activityFilter === 'active') {
     filteredRecords = records.filter(record => record.status);
   } else if (activityFilter === 'inactive') {
     filteredRecords = records.filter(record => !record.status);
   }
 
-  // Apply search query filter
   if (searchQuery.trim() !== '') {
     filteredRecords = filteredRecords.filter(record =>
       record.glId.toString().includes(searchQuery.trim()) ||
@@ -66,7 +64,22 @@ const GeneralLedgers = () => {
   };
 
   const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setIsViewMode(false);
+    resetFormData();
+  };
+
+  const resetFormData = () => {
+    setFormData({
+      GLGroupID: '',
+      GLTypeID: '',
+      TempAcctName: '',
+      GLAcctDescription: '',
+      GLAcctName: '',
+      isActive: false,
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -120,14 +133,7 @@ const GeneralLedgers = () => {
       };
       await addLedger(ledgerData);
       alert('Form submitted successfully');
-      setFormData({
-        GLGroupID: '',
-        GLTypeID: '',
-        TempAcctName: '',
-        GLAcctDescription: '',
-        GLAcctName: '',
-        isActive: false,
-      });
+      resetFormData();
       handleCloseModal();
     } catch (error) {
       alert('Failed to submit form');
@@ -136,9 +142,27 @@ const GeneralLedgers = () => {
     }
   };
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleView = async (id) => {
+    resetFormData();
+    try {
+      const ledgerData = await getLedgerById(id);
+      setFormData({
+        GLGroupID: ledgerData.glGroupId,
+        GLTypeID: ledgerData.glTypeId,
+        TempAcctName: ledgerData.tempAccName,
+        GLAcctDescription: ledgerData.glAccDescription,
+        GLAcctName: ledgerData.glAccName,
+        isActive: ledgerData.status,
+      });
+      setIsViewMode(true);
+      handleShowModal();
+    } catch (error) {
+      console.error('Error fetching ledger details:', error);
+    }
   };
 
   return (
@@ -158,46 +182,58 @@ const GeneralLedgers = () => {
         </div>
         <div className="col-md-2 col-sm-4">
           <div className="input-group mb-3">
-            <select className="form-select" id="activityStat" name="activityStat" value={activityFilter} onChange={(e) => setActivityFilter(e.target.value)}>
-              <option value="">Activity Status</option>
+            <select
+              className="form-control"
+              value={activityFilter}
+              onChange={(e) => setActivityFilter(e.target.value)}
+            >
+              <option value="">All</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
           </div>
         </div>
-        <div className="col-md-7 col-sm-4 text-right d-flex justify-content-end">
-          <button className="btn btn-primary btn-block" onClick={handleShowModal}><BsPlusLg /> Add General Ledger</button>
+        <div className="col-md-7 col-sm-4">
+          <div className='row'>
+            <div className='col-md-12 col-sm-12'>
+              <Link href="#" className="btn add-btn bg-primary text-white">
+                <span className='add-icon'>
+                  <BsPlusLg />
+                </span>
+                <span className="btn-txt" onClick={() => setShowModal(true)}>Add GL Account</span>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Bootstrap Table */}
-      <div className="row mt-4">
+      <div className="row card-container">
         <div className="col-12">
-          <div className="table-responsive">
-            <table className="table table-striped">
+          <div className="card bg-none">
+            <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">GL ID</th>
-                  <th scope="col">Ledger Account ID</th>
-                  <th scope="col">GL Account Name</th>
-                  <th scope="col">GL Account Description</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Actions</th>
+                  <th>GL ID</th>
+                  <th>Account Number</th>
+                  <th>GL Account Name</th>
+                  <th>GL Account Description</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {currentRecords.map(record => (
+                {currentRecords.map((record) => (
                   <tr key={record.glId}>
-                    <th scope="row">{record.glId}</th>
-                    <td><Link href={`/ledger-acc-statement/${record.accountNumber}`}>{record.accountNumber}</Link></td>
+                    <td>{record.glId}</td>
+                    <td>{record.accountNumber}</td>
                     <td>{record.glAccName}</td>
                     <td>{record.glAccDescription}</td>
                     <td>{record.status ? 'Active' : 'Inactive'}</td>
                     <td>
-                      <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.glId)}>
+                      <button className='btn' onClick={() => handleView(record.glId)}>
                         <BsEye />
                       </button>
-                      <button className="btn btn-link p-0" onClick={() => handleEdit(record.glId)}>
+                      <button className='btn' onClick={() => handleEdit(record.glId)}>
                         <BsPencilSquare />
                       </button>
                     </td>
@@ -206,9 +242,10 @@ const GeneralLedgers = () => {
               </tbody>
             </table>
           </div>
+
           <nav>
-            <ul className="pagination justify-content-center">
-              {[...Array(totalPages)].map((_, index) => (
+            <ul className="pagination">
+              {Array.from({ length: totalPages }, (_, index) => (
                 <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
                   <button className="page-link" onClick={() => handlePageChange(index + 1)}>
                     {index + 1}
@@ -227,14 +264,10 @@ const GeneralLedgers = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         isLoading={loading}
+        isViewMode={isViewMode} // Pass view mode to modal
       />
     </main>
   );
-
-  function handleView(id) {
-    alert(`View item with id: ${id}`);
-    // Add your view logic here
-  }
 
   function handleEdit(id) {
     alert(`Edit item with id: ${id}`);

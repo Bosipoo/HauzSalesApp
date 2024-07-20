@@ -8,7 +8,6 @@ const api = axios.create({
     },
   });
 
-  // Add token to each request
   api.interceptors.request.use(
     (config) => {
       const token = Cookies.get('token');
@@ -22,7 +21,6 @@ const api = axios.create({
     }
   );
 
-  // Handle session expiration
   api.interceptors.response.use(
     (response) => {
       return response;
@@ -74,4 +72,37 @@ const api = axios.create({
     return response.data;
   };
 
+  export const getLedgerById = async (id) => {
+    const response = await api.get(`/GetLedgers/${id}`);
+    console.log('getbyId',response);
+    return response.data;
+  };
+
+  export const addProperty = async (propertyData) => {
+    try {
+      const response = await api.post('/AddProperty', propertyData);
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Failed to add property');
+    }
+  };
+
+  export const getProperties = async () => {
+    const response = await api.get('/GetProperties');
+    return response.data;
+  }
+
+  export const getPropertyTypes = async () => {
+    try {
+      const response = await api.get('/GetPropertyType');
+      return response.data;
+    } catch (error) {
+      throw error.response ? error.response.data : new Error('Failed to fetch property types');
+    }
+  };
+
+  export const addPropertyType = async (propertyTypeData) => {
+    const response = await axios.post(`${API_BASE_URL}api/AddPropertyType`, propertyTypeData);
+    return response.data;
+  };
 

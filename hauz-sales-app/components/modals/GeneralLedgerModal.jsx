@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Form, Spinner } from 'react-bootstrap';
 
-const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChange, handleSubmit, isLoading }) => {
-
+const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChange, handleSubmit, isLoading, isViewMode }) => {
   return (
     <Modal show={showModal} onHide={handleCloseModal}>
       <Modal.Header closeButton>
@@ -19,6 +18,7 @@ const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChang
               value={formData.GLGroupID}
               onChange={handleChange}
               required
+              disabled={isViewMode} // Disable in view mode
             >
               <option value="">Select Group ID</option>
               <option value="INF">INF | Payments Collected from Buyers</option>
@@ -49,6 +49,7 @@ const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChang
               value={formData.TempAcctName}
               onChange={handleChange}
               required
+              disabled={isViewMode} // Disable in view mode
             />
           </Form.Group>
 
@@ -60,6 +61,7 @@ const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChang
               value={formData.GLAcctDescription}
               onChange={handleChange}
               required
+              disabled={isViewMode} // Disable in view mode
             />
           </Form.Group>
 
@@ -80,12 +82,15 @@ const GeneralLedgerModal = ({ showModal, handleCloseModal, formData, handleChang
               name="isActive"
               checked={formData.isActive}
               onChange={handleChange}
+              disabled={isViewMode} // Disable in view mode
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" className="w-100" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Submit'}
-          </Button>
+          {!isViewMode && ( // Hide submit button in view mode
+            <Button variant="primary" type="submit" className="w-100" onClick={handleSubmit} disabled={isLoading}>
+              {isLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Submit'}
+            </Button>
+          )}
         </Form>
       </Modal.Body>
     </Modal>
@@ -104,7 +109,8 @@ GeneralLedgerModal.propTypes = {
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  isViewMode: PropTypes.bool.isRequired,
 };
 
 export default GeneralLedgerModal;

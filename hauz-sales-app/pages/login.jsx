@@ -4,6 +4,7 @@ import { FaExclamationCircle } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 import { login } from '../services/api';
 import { Spinner, Button } from 'react-bootstrap';
+import Link from 'next/link';
 
 const Login = () => {
   const [errors, setErrors] = useState({});
@@ -97,10 +98,10 @@ const Login = () => {
                 ))}
               </div>
             )}
-            <p>
-              <a href="/signup" className='text-start text-primary pb-2'>Sign Up </a>
-              <a href="#" className='text-end text-primary pb-2'> Forgot Password?</a>
-            </p>
+            <div className='d-flex justify-content-between'>
+              <Link href="/signup" className='text-start text-primary pb-2'>Sign Up </Link>
+              <Link href="#" className='text-end text-primary pb-2'> Forgot Password?</Link>
+            </div>
             <Button variant="primary" type="submit" className="w-100" disabled={loading}>
               {loading ? <Spinner animation="border" size="sm" /> : 'Login In'}
             </Button>

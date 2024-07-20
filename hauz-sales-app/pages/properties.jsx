@@ -1,78 +1,79 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
-import { BsSearch, BsPlusLg, BsEye, BsPencilSquare } from 'react-icons/bs';
-import '../styles/properties.css';
+import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
+import PropertyModal from '../components/modals/PropertyModal';
+import AddPropertyTypeModal from '../components/modals/AddPropertyTypeModal';
+import { BsPlusLg, BsEye, BsPencilSquare } from 'react-icons/bs';
+import { getProperties } from '../services/api';
+import withAuth from '../hoc/withAuth';
+import checkTokenExpiration from '../hoc/checkTokenExpiration';
 
 const Properties = () => {
-  const records = [
-    { ID: 1, PropertyCode: 'URBC-YAB-1', Name: 'Majaro', FractionNo: 315, QtyOrdered: 74.5, Balance: 240.5, PricePerFraction: '$125000', Date: '14/04/2024', OffplanTranche: '7.50%', OffplanBullet: '5%', ConstructionStage: '2%', Active: true },
-    { ID: 2, PropertyCode: 'URBC-LSR-1', Name: 'Adetola', FractionNo: 350, QtyOrdered: 45, Balance: 300, PricePerFraction: '$165000', Date: '18/04/2024', OffplanTranche: '7.50%', OffplanBullet: '5%', ConstructionStage: '2%', Active: true }
-    // ... Add more records up to 100 or more for testing
-  ];
-
+  const [showAddPropertyTypeModal, setShowAddPropertyTypeModal] = useState(false);
+  const [showPropertyModal, setShowPropertyModal] = useState(false);
+  const [properties, setProperties] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProperties, setFilteredProperties] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({
-    GLAcctNumber: '',
-    GLGroupID: '',
-    GLTypeID: '',
-    TempAcctName: '',
-    GLAcctDescription: '',
-    GLAcctName: '',
-    isActive: false,
-  });
-  const recordsPerPage = 15;
+  const recordsPerPage = 20;
 
-  const indexOfLastRecord = currentPage * recordsPerPage;
-  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
-  const totalPages = Math.ceil(records.length / recordsPerPage);
+  const fetchProperties = async () => {
+    try {
+      const data = await getProperties();
+      setProperties(data);
+      setFilteredProperties(data);
+    } catch (error) {
+      console.error('Error fetching properties:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    const filtered = properties.filter((property) =>
+      property.projectCode.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredProperties(filtered);
+  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleShowPropertyModal = () => setShowPropertyModal(true);
+  const handleClosePropertyModal = () => setShowPropertyModal(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+  const openAddPropertyTypeModal = () => setShowAddPropertyTypeModal(true);
+  const closeAddPropertyTypeModal = () => setShowAddPropertyTypeModal(false);
 
-    if (name === 'GLGroupID' || name === 'TempAcctName') {
-      setFormData((prevState) => ({
-        ...prevState,
-        GLAcctName: `${formData.GLGroupID} | ${formData.TempAcctName}`
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Form submitted');
-    handleClose();
-  };
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = filteredProperties.slice(indexOfFirstRecord, indexOfLastRecord);
+  const totalPages = Math.ceil(filteredProperties.length / recordsPerPage);
 
   return (
-    <main className='main-container'>
-      <div className='main-title'>
+    <main className="main-container">
+      <div className="main-title">
         <h2>PROPERTIES</h2>
       </div>
 
       <div className="row main-header">
         <div className="col-md-3 col-sm-4">
           <div className="input-group mb-3">
-            <form className="top" action="#">
-              <input type="text" placeholder="Search.." name="search2" />
-              <button type="submit"><BsSearch className='card-icon' /></button>
-            </form>
+            <input
+              type="text"
+              placeholder="Search.."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="form-control"
+              name="search2"
+            />
           </div>
         </div>
         <div className="col-md-2 col-sm-4">
-          {/* Dropdown for filtering */}
           <div className="input-group mb-3">
             <select className="form-select" id="activityStat" name="activityStat">
               <option defaultValue>Activity Status</option>
@@ -82,8 +83,12 @@ const Properties = () => {
           </div>
         </div>
         <div className="col-md-7 col-sm-4 text-right d-flex justify-content-end">
-          {/* Button for adding general ledgers */}
-          <button className="btn btn-primary btn-block" onClick={handleShow}><BsPlusLg /> Add Property</button>
+          <button className="btn btn-primary btn-block" onClick={handleShowPropertyModal}>
+            <BsPlusLg /> Add Property
+          </button>
+          <Button variant="success" className="ms-4" onClick={openAddPropertyTypeModal}>
+            Add Property Type
+          </Button>
         </div>
       </div>
 
@@ -96,12 +101,8 @@ const Properties = () => {
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Property Code</th>
-                  <th scope="col">Name</th>
                   <th scope="col">No. of Fractions</th>
-                  <th scope="col">Qty Ordered</th>
-                  <th scope="col">Balance</th>
                   <th scope="col">Price per Fraction</th>
-                  <th scope="col">Date</th>
                   <th scope="col">Offplan Tranche</th>
                   <th scope="col">Offplan Bullet</th>
                   <th scope="col">Construction Stage</th>
@@ -109,24 +110,20 @@ const Properties = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentRecords.map(record => (
-                  <tr key={record.ID}>
-                    <th scope="row">{record.ID}</th>
-                    <td>{record.PropertyCode}</td>
-                    <td>{record.Name}</td>
-                    <td>{record.FractionNo}</td>
-                    <td>{record.QtyOrdered}</td>
-                    <td>{record.Balance}</td>
-                    <td>{record.PricePerFraction}</td>
-                    <td>{record.Date}</td>
-                    <td>{record.OffplanTranche}</td>
-                    <td>{record.OffplanBullet}</td>
-                    <td>{record.ConstructionStage}</td>
+                {currentRecords.map((record) => (
+                  <tr key={record.id}>
+                    <th scope="row">{record.id}</th>
+                    <td>{record.projectCode}</td>
+                    <td>{record.noOfFractions}</td>
+                    <td>{record.pricePerFraction}</td>
+                    <td>{record.offPlanTrancheDisc}</td>
+                    <td>{record.offPlanBulletDisc}</td>
+                    <td>{record.constructionStageDisc}</td>
                     <td>
-                      <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.ID)}>
+                      <button className="btn btn-link p-0 me-2" onClick={() => handleView(record.id)}>
                         <BsEye />
                       </button>
-                      <button className="btn btn-link p-0" onClick={() => handleEdit(record.ID)}>
+                      <button className="btn btn-link p-0" onClick={() => handleEdit(record.id)}>
                         <BsPencilSquare />
                       </button>
                     </td>
@@ -148,108 +145,17 @@ const Properties = () => {
           </nav>
         </div>
       </div>
-
-      {/* Modal */}
-      <Modal show={showModal} onHide={handleClose} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Property Data Capture Form</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <div className="row mb-3">
-              <div className="col-md-2">
-                <Form.Group controlId="SSID">
-                  <Form.Label>SSID</Form.Label>
-                  <Form.Control type="number" placeholder="" />
-                </Form.Group>
-              </div>
-              <div className="col-md-4">
-                <Form.Group controlId="projectCode">
-                  <Form.Label>Project Code</Form.Label>
-                  <Form.Control type="text" placeholder="" />
-                </Form.Group>
-              </div>
-            </div>
-            <hr />
-            <div className="form-section">
-              <h5>Personal Information</h5>
-              <div className="row">
-                <div className="col-md-12">
-                  <Form.Group controlId="description">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" rows={3} placeholder="Enter description" />
-                  </Form.Group>
-                </div>
-                <div className="col-md-12">
-                  <Form.Group controlId="address">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control as="textarea" rows={2} placeholder="Enter address" />
-                  </Form.Group>
-                </div>
-              </div>
-              <div className="row mt-3">
-                <div className="col-md-4">
-                  <Form.Group controlId="offPlanTrancheDisc">
-                    <Form.Label>Off-Plan Tranche Disc</Form.Label>
-                    <Form.Control type="number" defaultValue="0" />
-                  </Form.Group>
-                </div>
-                <div className="col-md-4">
-                  <Form.Group controlId="offPlanBulletDisc">
-                    <Form.Label>Off-Plan Bullet Disc</Form.Label>
-                    <Form.Control type="number" defaultValue="0" />
-                  </Form.Group>
-                </div>
-                <div className="col-md-4">
-                  <Form.Group controlId="constructionStageDisc">
-                    <Form.Label>Construction Stage Disc</Form.Label>
-                    <Form.Control type="number" className="highlighted" defaultValue="0" />
-                  </Form.Group>
-                </div>
-              </div>
-              <div className="row mt-3">
-                <div className="col-md-4">
-                  <Form.Group controlId="pricePerFraction">
-                    <Form.Label>Price per Fraction</Form.Label>
-                    <Form.Control type="text" defaultValue="$" />
-                  </Form.Group>
-                </div>
-                <div className="col-md-4">
-                  <Form.Group controlId="amountOutstanding">
-                    <Form.Label>Amount Outstanding</Form.Label>
-                    <Form.Control type="number" />
-                  </Form.Group>
-                </div>
-                <div className="col-md-4">
-                  <Form.Group controlId="numberOfFractions">
-                    <Form.Label>Number of Fractions</Form.Label>
-                    <Form.Control type="number" />
-                  </Form.Group>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div className="form-section">
-              <h5>Supporting Document</h5>
-              <div className="row">
-                <div className="col-md-12">
-                  <Form.Group controlId="supportingDocument">
-                    <Form.Control type="file" className="highlighted" />
-                  </Form.Group>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-md-12 d-flex justify-content-end">
-                <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-                <Button variant="primary" type="submit" className="ml-2">Submit</Button>
-              </div>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
+      <PropertyModal
+        showModal={showPropertyModal}
+        handleClose={handleClosePropertyModal}
+        fetchProperties={fetchProperties}
+      />
+      <AddPropertyTypeModal
+        showModal={showAddPropertyTypeModal}
+        handleClose={closeAddPropertyTypeModal}
+      />
     </main>
   );
 };
 
-export default Properties;
+export default withAuth(checkTokenExpiration(Properties));
