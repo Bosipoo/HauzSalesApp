@@ -102,7 +102,7 @@ const api = axios.create({
   };
 
   export const addPropertyType = async (propertyTypeData) => {
-    const response = await axios.post(`${API_BASE_URL}api/AddPropertyType`, propertyTypeData);
+    const response = await api.post(`/AddPropertyType`, propertyTypeData);
     return response.data;
   };
 
