@@ -1,14 +1,21 @@
 {
+    "version": 2,
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/next"
+      }
+    ],
     "routes": [
-        { "src": "/login", "dest": "/" },
-        { "src": "/", "dest": "/" },
-        { "src": "/general-ledgers", "dest": "/" },
-        { "src": "/properties", "dest": "/" },
-        { "src": "/prospects", "dest": "/" },
-        { "src": "/sales", "dest": "/" },
-        { "src": "/sales-reps", "dest": "/" },
-        { "src": "/transactions", "dest": "/" },
-        { "src": "/ledger-acc-statement/:id", "dest": "/" }
+      { "src": "/login", "dest": "/" },
+      { "src": "/", "dest": "/" },
+      { "src": "/general-ledgers", "dest": "/" },
+      { "src": "/properties", "dest": "/" },
+      { "src": "/prospects", "dest": "/" },
+      { "src": "/sales", "dest": "/" },
+      { "src": "/sales-reps", "dest": "/" },
+      { "src": "/transactions", "dest": "/" },
+      { "src": "/ledger-acc-statement/:id", "dest": "/" }
     ]
-}
+  }
   
