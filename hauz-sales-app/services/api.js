@@ -102,7 +102,11 @@ const api = axios.create({
   };
 
   export const addPropertyType = async (propertyTypeData) => {
-    const response = await api.post(`/AddPropertyType`, propertyTypeData);
-    return response.data;
+    try{
+      const response = await api.post(`/AddPropertyType`, propertyTypeData);
+      return response.data;
+    }catch (error) {
+      throw error.response ? error.response.data : new Error('Failed to add property types');
+    }
   };
 
