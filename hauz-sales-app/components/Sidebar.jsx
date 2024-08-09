@@ -39,11 +39,11 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
                         <BsPersonCheck className='icon' /> Prospects
                     </a>
                 </li>
-                <li className='sidebar-list-item'>
+                {/* <li className='sidebar-list-item'>
                     <a href="/sales">
                         <BsBag className='icon' /> Sales
                     </a>
-                </li>
+                </li> */}
                 <li className='sidebar-list-item'>
                     <a href="/transactions">
                         <BsCreditCard className='icon' /> Transactions

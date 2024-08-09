@@ -13,7 +13,7 @@ const decodeToken = (token) => {
 
     return JSON.parse(jsonPayload);
   } catch (error) {
-    console.error('Failed to decode token', error);
+    // console.error('Failed to decode token', error);
     return null;
   }
 };
@@ -34,9 +34,9 @@ const checkTokenExpiration = (WrappedComponent) => {
               router.push('/login');
             }
           } catch (error) {
-            console.error('Failed to decode token', error);
-            Cookies.remove('token');
-            router.push('/login');
+            // console.error('Failed to decode token', error);
+            // Cookies.remove('token');
+            // router.push('/login');
           }
         } else {
           router.push('/login');
